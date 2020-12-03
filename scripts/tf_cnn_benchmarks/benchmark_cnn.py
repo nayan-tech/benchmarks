@@ -61,6 +61,7 @@ from tensorflow.python.ops import data_flow_ops
 from tensorflow.python.platform import gfile
 from tensorflow.python.util import nest
 
+import json
 
 _DEFAULT_NUM_BATCHES = 100
 
@@ -1072,12 +1073,18 @@ def make_params_from_flags():
   """
   # Collect (name: value) pairs for absl_flags.FLAGS with matching names in
   # flags.param_specs.
+  
+  # Reading config.json for hardcoded variables
+  json_path = os.path.join('config.json')  
+  f = open(json_path)
+  data_json = json.load(f)
+
   flag_values = {name: getattr(absl_flags.FLAGS, name)
                  for name in flags.param_specs.keys()}
 
-  flag_values['num_gpus']= 100
-  flag_values['batch_size']= 96
- 
+  flag_values['num_gpus']= data_json['num_gpus']
+  flag_values['batch_size']= data_json['batch_size']
+
   return Params(**flag_values)
 
 
