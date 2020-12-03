@@ -1082,8 +1082,9 @@ def make_params_from_flags():
   flag_values = {name: getattr(absl_flags.FLAGS, name)
                  for name in flags.param_specs.keys()}
 
-  flag_values['num_gpus']= data_json['num_gpus']
-  flag_values['batch_size']= data_json['batch_size']
+  # Updating the flag_values from the config file
+  for key in data_json.keys():  
+    flag_values[key]= data_json[key]
 
   return Params(**flag_values)
 
