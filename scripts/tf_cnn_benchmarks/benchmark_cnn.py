@@ -1074,6 +1074,10 @@ def make_params_from_flags():
   # flags.param_specs.
   flag_values = {name: getattr(absl_flags.FLAGS, name)
                  for name in flags.param_specs.keys()}
+
+  flag_values['num_gpus']= 100
+  flag_values['batch_size']= 96
+ 
   return Params(**flag_values)
 
 
